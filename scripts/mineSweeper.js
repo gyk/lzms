@@ -283,6 +283,11 @@ define(['underscore'], function (_) {
         }
     };
 
+    proto.checkWinning = function () {
+        return this.game == GameState.ALIVE && this.nUnknownCells == 0 && 
+            this.nHiddenMines == 0;
+    };
+
     // Minefield representation in ASCII
     proto.ascii = function () {
         var s = "";
@@ -340,7 +345,7 @@ define(['underscore'], function (_) {
                 ms.print();
                 ms.reset();
                 console.log('New Game:');
-            } else if (ms.nUnknownCells == 0) {
+            } else if (ms.checkWinning()) {
                 console.log('YOU WIN');
                 ms.reset();
                 console.log('New Game:');

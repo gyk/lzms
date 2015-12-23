@@ -44,6 +44,7 @@ define(['underscore'], function (_) {
         this.nCells = this.nRows * this.nColumns;
         this.nMines = config.nMines;
         this.game = GameState.SPAWNED;
+        this.beLazy = true;
 
         this.init();
     }
@@ -173,7 +174,9 @@ define(['underscore'], function (_) {
         var hasOpened = this._open(r, c);
         if (!hasOpened) return false;
 
-        if (this.game == GameState.ALIVE && this.neighbors[r][c] == 0) {
+        if (this.beLazy) {
+            this.lazy(r, c);
+        } else if (this.game == GameState.ALIVE && this.neighbors[r][c] == 0) {
             this.cascade(r, c);
         }
         return true;
@@ -191,6 +194,10 @@ define(['underscore'], function (_) {
     };
 
     proto.cascade = function (r, c) {
+        // Lazy mode allows cells being opened recursively by its nature, 
+        // therefore we do not need cascade expanding.
+        if (this.beLazy) return;
+
         var _this = this;
         var queue = [];
         var push0 = function (i, j) {
@@ -214,6 +221,7 @@ define(['underscore'], function (_) {
     // If the surrounding mines of a cell have been flagged, 
     // we can open the remaining unknown ones.
     proto.openRest = function (r, c) {
+        console.assert(!this.beLazy, "Cannot call openRest in lazy mode");
         var cells = this.cellStates;
         if (cells[r][c] != State.OPENED) {
             return false;
@@ -284,6 +292,94 @@ define(['underscore'], function (_) {
         }
     };
 
+    /* The Lazy Way */
+    proto.lazy = function (r, c) {
+        var _this = this;
+        var queue = [[r, c, true]];
+        var closedList = {};
+        while (queue.length > 0) {
+            var t = queue.shift();
+            var pos = [t[0], t[1]];
+
+            // If the dequeued cell has just been opened or flagged 
+            // (a.k.a. state changed), all of its neighbors should be 
+            // enqueued. Otherwise, we check whether it is clear that 
+            // the surrounding unrevealed cells are mines or not. If 
+            // we are sure, open/flag them and then enqueue them. 
+            var stateChanged = t[2];
+            var r = pos[0], c = pos[1];
+
+            var clear = this.isClear(r, c);
+            if (clear === undefined) {  // no need to open unknown cells
+                if (stateChanged) {
+                    forNeighbors(r, c, function (i, j) {
+                        if ((_this.cellStates[i][j] != State.OPENED && 
+                            _this.cellStates[i][j] != State.FLAGGED) || 
+                            [i, j] in closedList) {
+                            return;
+                        }
+                        queue.push([i, j, false]);
+                    });
+                }
+                continue;
+            }
+
+            if (clear == 0) {
+                forNeighbors(r, c, function (i, j) {
+                    if ([i, j] in closedList) return;
+                    var opened = _this._open(i, j);
+                    if (opened || stateChanged) {
+                        queue.push([i, j, opened]);
+                    }
+                });
+            } else if (clear == 1) {
+                forNeighbors(r, c, function (i, j) {
+                    if ([i, j] in closedList) return;
+                    var flagged;
+                    if (_this.cellStates[i][j] == State.UNKNOWN) {
+                        _this._flag(i, j);
+                        flagged = true;
+                    }
+                    if (flagged || stateChanged) {
+                        queue.push([i, j, flagged]);
+                    }
+                });
+            }
+            closedList[pos] = true;  // this cell is done
+        }
+    };
+
+    // Suppose the player's flagging is correct, checks whether it is 
+    // obvious that the surrounding unrevealed cells are mines or not.
+    // Returns: 1, if all remaining cells are mines;
+    //          0, if non-mines;
+    //          undefined, if not sure, or all cells are opened.
+    proto.isClear = function (r, c) {
+        var nMines = this.neighbors[r][c];
+        var nUnknown = 0, nFlagged = 0;
+        var cells = this.cellStates;
+        if (cells[r][c] != State.OPENED && cells[r][c] != State.FLAGGED) {
+            return undefined;
+        }
+        forNeighbors(r, c, function (i, j) {
+            if (cells[i][j] == State.UNKNOWN) {
+                nUnknown++;
+            } else if (cells[i][j] == State.FLAGGED) {
+                nFlagged++;
+            }
+        });
+
+        if (nUnknown == 0) return undefined;
+        if (nMines == 0) {
+            return 0;
+        } else if (nMines == nFlagged) {
+            return 0;
+        } else if (nMines - nFlagged == nUnknown) {
+            return 1;
+        }
+        return undefined;
+    };
+
     proto.checkWinning = function () {
         return this.game == GameState.ALIVE && this.nUnknownCells == 0 && 
             this.nHiddenMines == 0;
@@ -339,6 +435,10 @@ define(['underscore'], function (_) {
     proto.interact = function () {
         // Shortcuts
         var ms = this;
+        if (ms.beLazy) {
+            console.log('Lazy Mode ON');
+        }
+
         var _check = function () {
             if (ms.game == GameState.DEAD) {
                 console.log('GAME OVER');

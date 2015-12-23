@@ -245,7 +245,7 @@ define(['underscore'], function (_) {
         this.game = GameState.DEAD;
     };
 
-    proto.flag = function (r, c) {
+    proto._flag = function (r, c) {
         if (this.game != GameState.ALIVE) {
             return false;
         }
@@ -260,18 +260,27 @@ define(['underscore'], function (_) {
             return true;
             break;
         case State.OPENED:
+        case State.WALL:
             return false;
             break;
         case State.FLAGGED:
             cells[r][c] = State.QUESTIONING;
             this.nHiddenMines++;
             this.nUnknownCells++;
-            return true;
+            return flase;
             break;
         case State.QUESTIONING:
             cells[r][c] = State.UNKNOWN;
-            return true;
+            return false;
             break;
+        }
+    };
+
+    proto.flag = function (r, c) {
+        if (this._flag(r, c)) {
+            if (this.beLazy) {
+                this.lazy(r, c);
+            }
         }
     };
 

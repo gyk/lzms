@@ -23,6 +23,17 @@ define(['underscore'], function (_) {
         });
     }
 
+    function forNeighbors(r, c, fun) {
+        fun(r-1, c-1);
+        fun(r-1,  c );
+        fun(r-1, c+1);
+        fun( r , c-1);
+        fun( r , c+1);
+        fun(r+1, c-1);
+        fun(r+1,  c );
+        fun(r+1, c+1);
+    }
+
     // Class definition
     function MineSweeper(config) {
         if (typeof config.level !== typeof undefined) {
@@ -103,18 +114,13 @@ define(['underscore'], function (_) {
     };
 
     proto.calcNeighborCounts = function () {
-        for (var i = 0; i <= this.nRows + 1; i++) {
-            for (var j = 0; j <= this.nColumns + 1; j++) {
-                if (this.minefield[i][j] != 1) continue;
-                var nb = this.neighbors;
-                nb[i-1][j-1]++;
-                nb[i-1][ j ]++;
-                nb[i-1][j+1]++;
-                nb[ i ][j-1]++;
-                nb[ i ][j+1]++;
-                nb[i+1][j-1]++;
-                nb[i+1][ j ]++;
-                nb[i+1][j+1]++;
+        var neighbors = this.neighbors;
+        for (var r = 0; r <= this.nRows + 1; r++) {
+            for (var c = 0; c <= this.nColumns + 1; c++) {
+                if (this.minefield[r][c] != 1) continue;
+                forNeighbors(r, c, function (i, j) {
+                    neighbors[i][j]++;
+                });
             }
         }
     };
@@ -129,11 +135,7 @@ define(['underscore'], function (_) {
         this.calcNeighborCounts();
     };
 
-    proto.open = function (r, c) {
-        if (this.game == GameState.INTACT) {
-            this.firstOpen(r, c);
-        }
-
+    proto._open = function (r, c) {
         if (this.game != GameState.ALIVE) {
             return false;
         }
@@ -146,6 +148,7 @@ define(['underscore'], function (_) {
             this.nUnknownCells--;
             break;
         case State.OPENED:
+        case State.WALL:
             return false;
         case State.FLAGGED:
             return false;
@@ -154,10 +157,23 @@ define(['underscore'], function (_) {
             this.nUnknownCells--;
             break;
         }
+
         if (this.minefield[r][c]) {
             // Exploded!
             this.game = GameState.DEAD;
-        } else if (this.neighbors[r][c] == 0) {
+        }
+        return true;
+    };
+
+    proto.open = function (r, c) {
+        if (this.game == GameState.INTACT) {
+            this.firstOpen(r, c);
+        }
+
+        var hasOpened = this._open(r, c);
+        if (!hasOpened) return false;
+
+        if (this.game == GameState.ALIVE && this.neighbors[r][c] == 0) {
             this.cascade(r, c);
         }
         return true;
@@ -175,45 +191,23 @@ define(['underscore'], function (_) {
     };
 
     proto.cascade = function (r, c) {
-        if (this.neighbors[r][c] != 0) {
-            return;
-        }
-        var cells = this.cellStates;
-        var neighbors = this.neighbors;
+        var _this = this;
         var queue = [];
-        queue.push([r, c]);
+        var push0 = function (i, j) {
+            if (_this.neighbors[i][j] == 0) {
+                queue.push([i, j]);
+            }
+        }
+        push0(r, c);
         while (queue.length > 0) {
             var pos = queue.shift();
-            for (var i = -1; i <= 1; i++) {
-                for (var j = -1; j <= 1; j++) {
-                    var r = pos[0] + i, c = pos[1] + j;
-                    if (i == 0 && j == 0 || cells[r][c] == State.WALL) {
-                        continue;
-                    }
-
-                    if (neighbors[r][c] == 0) {
-                        if (cells[r][c] == State.OPENED) {
-                            continue;
-                        }
-                        if (cells[r][c] != State.FLAGGED) {
-                            if (cells[r][c] != State.OPENED) {
-                                cells[r][c] = State.OPENED;
-                                this.nUnknownCells--;
-                            }
-                        }
-                        queue.push([r, c]);
-                    } else {
-                        console.assert(this.minefield[r][c] == 0, 
-                            "Mine is not expected here");
-                        if (cells[r][c] != State.FLAGGED) {
-                            if (cells[r][c] != State.OPENED) {
-                                cells[r][c] = State.OPENED;
-                                this.nUnknownCells--;
-                            }
-                        }
-                    }
+            forNeighbors(pos[0], pos[1], function (i, j) {
+                console.assert(_this.minefield[r][c] == 0, 
+                    "Mine is not expected here");
+                if (_this._open(i, j)) {
+                    push0(i, j);
                 }
-            }
+            });
         }
     };
 
@@ -225,21 +219,19 @@ define(['underscore'], function (_) {
             return false;
         };
         var nFlagged = 0;
-        for (var i = -1; i <= 1; i++) {
-            for (var j = -1; j <= 1; j++) {
-                if (cells[r + i][c + j] == State.FLAGGED) {
-                    nFlagged += 1;
-                }
+        forNeighbors(r, c, function (i, j) {
+            if (cells[i][j] == State.FLAGGED) {
+                nFlagged += 1;
             }
-        }
+        });
+        
+        var _this = this;
         if (nFlagged == this.neighbors[r][c]) {
-            for (var i = -1; i <= 1; i++) {
-                for (var j = -1; j <= 1; j++) {
-                    if (cells[r + i][c + j] == State.UNKNOWN) {
-                        this.open(r+i, c+j);
-                    }
+            forNeighbors(r, c, function (i, j) {
+                if (cells[i][j] == State.UNKNOWN) {
+                    _this.open(i, j);
                 }
-            }
+            });
         }
         return true;
     };

@@ -304,7 +304,7 @@ define(['underscore'], function (_) {
             // If the dequeued cell has just been opened or flagged 
             // (a.k.a. state changed), all of its neighbors should be 
             // enqueued. Otherwise, we check whether it is clear that 
-            // the surrounding unrevealed cells are mines or not. If 
+            // the surrounding unrevealed cells are mines/non-mines. If 
             // we are sure, open/flag them and then enqueue them. 
             var stateChanged = t[2];
             var r = pos[0], c = pos[1];
@@ -349,11 +349,11 @@ define(['underscore'], function (_) {
         }
     };
 
-    // Suppose the player's flagging is correct, checks whether it is 
-    // obvious that the surrounding unrevealed cells are mines or not.
-    // Returns: 1, if all remaining cells are mines;
-    //          0, if non-mines;
-    //          undefined, if not sure, or all cells are opened.
+    // Suppose the player's flagging is correct, checks whether we can  
+    // determine the surrounding unrevealed cells are all mines/non-mines.
+    // Returns: 1, if all the remaining cells are mines;
+    //          0, if all of them are non-mines;
+    //          undefined, if not sure or all cells have already been opened.
     proto.isClear = function (r, c) {
         var nMines = this.neighbors[r][c];
         var nUnknown = 0, nFlagged = 0;

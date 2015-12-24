@@ -388,28 +388,26 @@ define(['underscore'], function (_) {
     // Minefield representation in ASCII
     proto.ascii = function () {
         var s = "";
-        cells = this.cellStates;
-        with (this) {
-            for (var i = 1; i <= this.nRows; i++) {
-                var line = "";
-                for (var j = 1; j <= this.nColumns; j++) {
-                    if (cells[i][j] == State.OPENED) {
-                        if (minefield[i][j]) {
-                            line += "*";
-                        } else {
-                            line += neighbors[i][j].toString();
-                        }
-                    } else if (cells[i][j] == State.UNKNOWN) {
-                        line += "_";
-                    } else if (cells[i][j] == State.FLAGGED) {
-                        line += "F";
-                    } else if (cells[i][j] == State.QUESTIONING) {
-                        line += "?";
+        var cells = this.cellStates;
+        for (var i = 1; i <= this.nRows; i++) {
+            var line = "";
+            for (var j = 1; j <= this.nColumns; j++) {
+                if (cells[i][j] == State.OPENED) {
+                    if (this.minefield[i][j]) {
+                        line += "*";
+                    } else {
+                        line += this.neighbors[i][j].toString();
                     }
-                    line += " ";
+                } else if (cells[i][j] == State.UNKNOWN) {
+                    line += "_";
+                } else if (cells[i][j] == State.FLAGGED) {
+                    line += "F";
+                } else if (cells[i][j] == State.QUESTIONING) {
+                    line += "?";
                 }
-                s += line + "\n";
+                line += " ";
             }
+            s += line + "\n";
         }
         return s + "\n";
     };

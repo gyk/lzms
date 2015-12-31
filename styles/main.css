@@ -1,0 +1,109 @@
+body {
+  background-color: #C0C0C0;
+}
+
+#game {
+    background-color: #BDBDBD;
+    margin-top: 10px;
+    margin-left: 1px;
+    padding: 7px;
+    border-width: 2px;
+    border-style: solid;
+    border-left-color: #FFF;
+    border-top-color: #FFF;
+    border-right-color: #7B7B7B;
+    border-bottom-color: #7B7B7B;
+    display: none;
+}
+
+#game-body {
+    border-width: 2px;
+    border-style: solid;
+    border-left-color: #7B7B7B;
+    border-top-color: #7B7B7B;
+    border-right-color: #FFF;
+    border-bottom-color: #FFF;
+}
+
+.cell {
+    display: table-cell;
+    width: 16px;
+    height: 16px;
+    border: none;
+    clear:left;
+}
+
+.cell[val="_"] {
+    background-image: url('../images/blank.svg');
+    background-size: 16px 16px;
+}
+
+.cell[val="0"] {
+    background-image: url(../images/n0.svg);
+    background-size: 16px 16px;
+}
+
+.cell[val="1"] {
+    background-image: url(../images/n1.svg);
+    background-size: 16px 16px;
+}
+
+.cell[val="2"] {
+    background-image: url(../images/n2.svg);
+    background-size: 16px 16px;
+}
+
+.cell[val="3"] {
+    background-image: url(../images/n3.svg);
+    background-size: 16px 16px;
+}
+
+.cell[val="4"] {
+    background-image: url(../images/n4.svg);
+    background-size: 16px 16px;
+}
+
+.cell[val="5"] {
+    background-image: url(../images/n5.svg);
+    background-size: 16px 16px;
+}
+
+.cell[val="6"] {
+    background-image: url(../images/n6.svg);
+    background-size: 16px 16px;
+}
+
+.cell[val="7"] {
+    background-image: url(../images/n7.svg);
+    background-size: 16px 16px;
+}
+
+.cell[val="8"] {
+    background-image: url(../images/n8.svg);
+    background-size: 16px 16px;
+}
+
+.cell[val="F"] {
+    background-image: url(../images/mine_flagged.svg);
+    background-size: 16px 16px;
+}
+
+.cell[val="?"] {
+    background-image: url(../images/mine_questioning.svg);
+    background-size: 16px 16px;
+}
+
+.cell[val="*"] {
+    background-image: url('../images/mine.svg');
+    background-size: 16px 16px;
+}
+
+.cell[val="x"] {
+    background-image: url('../images/mine_misflagged.svg');
+    background-size: 16px 16px;
+}
+
+.cell[val="@"] {
+    background-image: url('../images/mine_exploded.svg');
+    background-size: 16px 16px;
+}

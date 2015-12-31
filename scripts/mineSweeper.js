@@ -1,27 +1,6 @@
-define(['underscore'], function (_) {
-    // Helper functions
-    function create2DArray(nr, nc, defVal) {
-        var a = new Array(nr);
-        for (var i = 0; i < nr; i++) {
-            a[i] = new Array(nc);
-            for (var j = 0; j < nc; j++) {
-                a[i][j] = defVal;
-            }
-        }
-        return a;
-    }
-
-    function random2D(nr, nc, nMines, firstR, firstC) {
-        // Generates the positions of mines based on the first opened cell.
-        var n = nr * nc;
-        // 1-based to 0-based
-        var firstInd = Math.floor(nc * (firstR - 1) + firstC - 1)
-        var indices = _.first(_.shuffle(_.range(firstInd).concat(
-            _.range(firstInd + 1, n))), nMines);
-        return _.map(indices, function (i) {
-            return [Math.floor(i / nc) + 1, i % nc + 1];
-        });
-    }
+define(['underscore', 'utility'], function (_, utility) {
+    var create2DArray = utility.create2DArray;
+    var random2D = utility.random2D;
 
     function forNeighbors(r, c, fun) {
         fun(r-1, c-1);
@@ -89,6 +68,10 @@ define(['underscore'], function (_) {
         DEAD : 'dead',
         WON : 'won'
     };
+
+    // exports static members
+    MineSweeper.State = State;
+    MineSweeper.GameState = GameState;
 
     proto.init = function () {
         this.reset();

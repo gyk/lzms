@@ -356,12 +356,14 @@ define(['underscore', 'utility'], function (_, utility) {
     //          0, if all of them are non-mines;
     //          undefined, if not sure or all cells have already been opened.
     proto.isClear = function (r, c) {
-        var nMines = this.neighbors[r][c];
-        var nUnknown = 0, nFlagged = 0;
         var cells = this.cellStates;
-        if (cells[r][c] != State.OPENED && cells[r][c] != State.FLAGGED) {
+        // we cannot see neighbor counts of flagged cells
+        if (cells[r][c] != State.OPENED) {
             return undefined;
         }
+
+        var nMines = this.neighbors[r][c];
+        var nUnknown = 0, nFlagged = 0;
         forNeighbors(r, c, function (i, j) {
             if (cells[i][j] == State.UNKNOWN) {
                 nUnknown++;

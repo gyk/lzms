@@ -112,6 +112,9 @@ define(['underscore', 'utility'], function (_, utility) {
         }
     };
 
+    // NOTE: we can manipulate mine generation for a more interesting game
+    // to play. However, it would be impossible to use probability to 
+    // analyze the board if the layout were not generated randomly.
     proto.layMines = function (firstR, firstC) {
         var positions = random2D(this.nRows, this.nColumns, 
             this.nMines, firstR, firstC);
@@ -161,6 +164,7 @@ define(['underscore', 'utility'], function (_, utility) {
     proto.open = function (r, c) {
         if (this.game == GameState.INTACT) {
             this.firstOpen(r, c);
+            return;
         }
 
         var hasOpened = this._open(r, c);
@@ -182,6 +186,39 @@ define(['underscore', 'utility'], function (_, utility) {
         this.layMines(r, c);
         this.game = GameState.ALIVE;
         this.open(r, c);
+
+        // trying to make a cascade opening
+        if (this.beLazy && this.neighbors[r][c] > 0) {
+            var _this = this;
+            var nMoves = 10;
+            var nTrials = 5;
+            for (var i = 1; i <= nTrials; i++) {
+                var positions = random2D(this.nRows, this.nColumns, 
+                    nMoves, r, c);
+
+                positions = _.filter(positions, function (pos) {
+                    return _this.minefield[pos[0]][pos[1]] == 0;
+                });
+
+                var firstEmptyInd = _.findIndex(positions, function (pos) {
+                    return _this.neighbors[pos[0]][pos[1]] == 0;
+                });
+
+                if (firstEmptyInd == -1) {
+                    if (i < nTrials) {
+                        continue;
+                    }
+                } else {
+                    positions = positions.slice(0, firstEmptyInd + 1);
+                }
+
+                _.map(positions, function (pos) {
+                    _this.open(pos[0], pos[1]);
+                });
+                break;
+            }
+        }
+
         return true;
     };
 

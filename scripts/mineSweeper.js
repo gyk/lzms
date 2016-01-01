@@ -25,6 +25,9 @@ define(['underscore', 'utility'], function (_, utility) {
         this.game = GameState.SPAWNED;
         this.beLazy = true;
 
+        this.onOpening = undefined;
+        this.onFlagging = undefined;
+
         this.init();
     }
 
@@ -129,6 +132,9 @@ define(['underscore', 'utility'], function (_, utility) {
         {
         case State.UNKNOWN:
             cells[r][c] = State.OPENED;
+            if (this.onOpening !== undefined) {
+                this.onOpening(r, c);
+            }
             this.nUnknownCells--;
             break;
         case State.OPENED:
@@ -138,6 +144,9 @@ define(['underscore', 'utility'], function (_, utility) {
             return false;
         case State.QUESTIONING:
             cells[r][c] = State.OPENED;
+            if (this.onOpening !== undefined) {
+                this.onOpening(r, c);
+            }
             this.nUnknownCells--;
             break;
         }
@@ -246,6 +255,9 @@ define(['underscore', 'utility'], function (_, utility) {
         {
         case State.UNKNOWN:
             cells[r][c] = State.FLAGGED;
+            if (this.onFlagging !== undefined) {
+                this.onFlagging(r, c);
+            }
             this.nHiddenMines--;
             this.nUnknownCells--;
             return true;
@@ -256,12 +268,18 @@ define(['underscore', 'utility'], function (_, utility) {
             break;
         case State.FLAGGED:
             cells[r][c] = State.QUESTIONING;
+            if (this.onFlagging !== undefined) {
+                this.onFlagging(r, c);
+            }
             this.nHiddenMines++;
             this.nUnknownCells++;
             return flase;
             break;
         case State.QUESTIONING:
             cells[r][c] = State.UNKNOWN;
+            if (this.onFlagging !== undefined) {
+                this.onFlagging(r, c);
+            }
             return false;
             break;
         }

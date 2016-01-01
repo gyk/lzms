@@ -10,11 +10,14 @@ requirejs.config({
     }
 });
 
-requirejs(['underscore', 'mineSweeper'], function (_, MineSweeper) {
+requirejs(['underscore', 'utility', 'mineSweeper'], 
+  function (_, utility, MineSweeper) {
     // Optional dependency on jQuery
-    requirejs(['jquery'], function ($) {
+    requirejs(['jquery', 'mineSweeperView'], function ($, MineSweeperView) {
         $('#start-game').click(function (ev) {
-            $('#start-game').after('<div id="game"></div>');
+            var ms = new MineSweeper({level: "Expert"});
+            var msv = new MineSweeperView(ms);
+            $('#game').css('display', 'inline-block');
         });
     }, function (err) {
         if (typeof window !== typeof undefined) {

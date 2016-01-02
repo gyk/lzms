@@ -5,7 +5,7 @@ define(['jquery', 'utility', 'mineSweeper'],
 
     function MineSweeperView(mineSweeper) {
         if (mineSweeper === undefined) {
-            mineSweeper = new MineSweeper({level: "Intermediate"});
+            mineSweeper = new MineSweeper({level: "Beginner"});
         }
 
         // TODO: it would be better to update cells in batch mode.

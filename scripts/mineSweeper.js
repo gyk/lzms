@@ -40,19 +40,19 @@ define(['underscore', 'utility'], function (_, utility) {
             'nMines': 5
         },
         'Beginner': {
-            'nRows': 9,
-            'nColumns': 9,
-            'nMines': 10
-        },
-        'Intermediate': {
             'nRows': 16,
             'nColumns': 16,
             'nMines': 40
         },
-        'Expert': {
+        'Intermediate': {
             'nRows': 16,
             'nColumns': 30,
             'nMines': 99
+        },
+        'Expert': {
+            'nRows': 20,
+            'nColumns': 30,
+            'nMines': 149
         }
     };
 

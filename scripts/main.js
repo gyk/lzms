@@ -15,7 +15,7 @@ requirejs(['underscore', 'utility', 'mineSweeper'],
     // Optional dependency on jQuery
     requirejs(['jquery', 'mineSweeperView'], function ($, MineSweeperView) {
         $('#start-game').click(function (ev) {
-            var ms = new MineSweeper({level: "Expert"});
+            var ms = new MineSweeper({level: "Intermediate"});
             var msv = new MineSweeperView(ms);
             $('#game').css('display', 'inline-block');
         });

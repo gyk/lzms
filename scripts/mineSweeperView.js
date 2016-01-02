@@ -87,8 +87,8 @@ define(['jquery', 'utility', 'mineSweeper'],
         $('#game-body').on('contextmenu', 'div', function (e) {
             return false;
         });
-        
-        $('#game-body').mouseup(function (evt) {
+
+        $('body').on('mouseup dragend', function (evt) {
             switch (ms.game) {
             case GameState.SPAWNED:
             case GameState.INTACT:
@@ -110,6 +110,7 @@ define(['jquery', 'utility', 'mineSweeper'],
             _this.rPressed = -1;
             _this.cPressed = -1;
         });
+
         $('#face').mousedown(function (evt) {
             $('#face').attr('emoticon', ':o');
         });

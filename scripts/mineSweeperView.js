@@ -1,6 +1,7 @@
 define(['jquery', 'utility', 'mineSweeper'], 
   function ($, utility, MineSweeper) {
     var State = MineSweeper.State;
+    var GameState = MineSweeper.GameState;
 
     function MineSweeperView(mineSweeper) {
         if (mineSweeper === undefined) {
@@ -20,6 +21,7 @@ define(['jquery', 'utility', 'mineSweeper'],
     proto.init = function () {
         var _this = this;
         var ms = this.mineSweeper;
+
         this.cellsView = utility.create2DArray(ms.nRows + 2, ms.nColumns + 2, 
             undefined);
 
@@ -32,15 +34,38 @@ define(['jquery', 'utility', 'mineSweeper'],
                 aCell.attr('val', '_');
                 aCell.attr('r', i).attr('c', j);
 
+                aCell.mousedown(function (evt) {
+                    if (evt.which != 1) return;
+
+                    var r = parseInt($(this).attr('r')),
+                        c = parseInt($(this).attr('c'));
+                    if (ms.cellStates[r][c] != State.UNKNOWN) {
+                        return;
+                    }
+
+                    switch (ms.game) {
+                    case GameState.SPAWNED:
+                    case GameState.INTACT:
+                    case GameState.ALIVE:
+                        $('#face').attr('emoticon', ':o');
+                        $(this).attr('val', '0');
+                        _this.rPressed = r;
+                        _this.cPressed = c;
+                        break;
+                    }
+                });
                 aCell.mouseup(function (evt) {
-                    var r = parseInt($(this).attr('r'));
+                    var r = parseInt($(this).attr('r')),
                         c = parseInt($(this).attr('c'));
 
-                    if (evt.which == 1) {
-                        ms.open(r, c);
-                    } else if (evt.which == 3) {
+                    if (evt.which == 3) {
                         ms.flag(r, c);
+                    } else if (evt.which == 1) {
+                        if (r == _this.rPressed && c == _this.cPressed) {
+                            ms.open(r, c);
+                        }
                     }
+                    ms.checkWinning();
                 });
 
                 this.cellsView[i][j] = aCell;
@@ -49,9 +74,46 @@ define(['jquery', 'utility', 'mineSweeper'],
             $('#game-body').append(row);
         }
 
+        this.rPressed = -1;
+        this.cPressed = -1;
+
+        if (ms.game != GameState.SPAWNED && 
+            ms.game != GameState.INTACT) {
+            ms.reset();  // play again
+            return;
+        }
+
         // disables right-click context menu
         $('#game-body').on('contextmenu', 'div', function (e) {
             return false;
+        });
+        
+        $('#game-body').mouseup(function (evt) {
+            switch (ms.game) {
+            case GameState.ALIVE:
+                $('#face').attr('emoticon', ':)');
+                break;
+            case GameState.DEAD:
+                $('#face').attr('emoticon', 'X(');
+                break;
+            case GameState.WON:
+                $('#face').attr('emoticon', 'B)');
+                break;
+            }
+
+            if (_this.rPressed != -1) {
+                _this.updateCell(_this.rPressed, _this.cPressed);
+            }
+
+            _this.rPressed = -1;
+            _this.cPressed = -1;
+        });
+        $('#face').mousedown(function (evt) {
+            $('#face').attr('emoticon', ':o');
+        });
+        $('#face').mouseup(function (evt) {
+            _this.init();
+            $('#face').attr('emoticon', ':)');
         });
     };
 

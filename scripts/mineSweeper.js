@@ -421,8 +421,12 @@ define(['underscore', 'utility'], function (_, utility) {
     };
 
     proto.checkWinning = function () {
-        return this.game == GameState.ALIVE && this.nUnknownCells == 0 && 
+        var hasWon = this.game == GameState.ALIVE && this.nUnknownCells == 0 && 
             this.nHiddenMines == 0;
+        if (hasWon) {
+            this.game = GameState.WON;
+        }
+        return hasWon;
     };
 
     // Minefield representation in ASCII

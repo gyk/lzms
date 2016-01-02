@@ -6,8 +6,8 @@ body {
     background-color: #BDBDBD;
     margin-top: 10px;
     margin-left: 1px;
-    padding: 7px;
-    border-width: 2px;
+    padding: 6px;
+    border-width: 3px;
     border-style: solid;
     border-left-color: #FFF;
     border-top-color: #FFF;
@@ -16,8 +16,123 @@ body {
     display: none;
 }
 
-#game-body {
+#game-head {
     border-width: 2px;
+    border-style: solid;
+    width: auto;
+    height: auto;
+    padding: 4px 5px 4px 5px;
+    border-left-color: #7B7B7B;
+    border-top-color: #7B7B7B;
+    border-right-color: #FFF;
+    border-bottom-color: #FFF;
+    text-align: center;
+    display: block;
+}
+
+#mines-left {
+    float: left;
+    width: 39px;
+    height: 23px;
+    border-width: 1px;
+    border-style: solid;
+    border-left-color: #7B7B7B;
+    border-top-color: #7B7B7B;
+    border-right-color: #FFF;
+    border-bottom-color: #FFF;
+    display: inline-block;
+}
+
+#face {
+    margin: 0 auto;
+    clear: both;
+    width: 26px;
+    height: 26px;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+#timer {
+    float: right;
+    width: 39px;
+    height: 23px;
+    border-width: 1px;
+    border-style: solid;
+    border-left-color: #7B7B7B;
+    border-top-color: #7B7B7B;
+    border-right-color: #FFF;
+    border-bottom-color: #FFF;
+    display: inline-block;
+}
+
+.digit {
+    width: 13px;
+    height: 23px;
+    display: table-cell;
+}
+
+.digit[val="0"] {
+    background-image: url(../images/d0.svg);
+}
+
+.digit[val="1"] {
+    background-image: url(../images/d1.svg);
+}
+
+.digit[val="2"] {
+    background-image: url(../images/d2.svg);
+}
+
+.digit[val="3"] {
+    background-image: url(../images/d3.svg);
+}
+
+.digit[val="4"] {
+    background-image: url(../images/d4.svg);
+}
+
+.digit[val="5"] {
+    background-image: url(../images/d5.svg);
+}
+
+.digit[val="6"] {
+    background-image: url(../images/d6.svg);
+}
+
+.digit[val="7"] {
+    background-image: url(../images/d7.svg);
+}
+
+.digit[val="8"] {
+    background-image: url(../images/d8.svg);
+}
+
+.digit[val="9"] {
+    background-image: url(../images/d9.svg);
+}
+
+#face[emoticon=":)"] {
+    background-image: url(../images/face_smile.svg);
+}
+
+#face[emoticon="B)"] {
+    background-image: url(../images/face_glasses.svg);
+}
+
+#face[emoticon=":o"] {
+    background-image: url(../images/face_oh.svg);
+}
+
+#face[emoticon="X("] {
+    background-image: url(../images/face_dead.svg);
+}
+
+#split {
+    height: 6px;
+}
+
+#game-body {
+    border-width: 3px;
     border-style: solid;
     border-left-color: #7B7B7B;
     border-top-color: #7B7B7B;
@@ -34,7 +149,7 @@ body {
 }
 
 .cell[val="_"] {
-    background-image: url('../images/blank.svg');
+    background-image: url(../images/blank.svg);
     background-size: 16px 16px;
 }
 

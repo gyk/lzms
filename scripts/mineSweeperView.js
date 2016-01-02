@@ -90,6 +90,8 @@ define(['jquery', 'utility', 'mineSweeper'],
         
         $('#game-body').mouseup(function (evt) {
             switch (ms.game) {
+            case GameState.SPAWNED:
+            case GameState.INTACT:
             case GameState.ALIVE:
                 $('#face').attr('emoticon', ':)');
                 break;

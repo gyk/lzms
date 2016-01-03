@@ -60,12 +60,18 @@ define(['jquery', 'utility', 'mineSweeper'],
                     var r = parseInt($(this).attr('r')),
                         c = parseInt($(this).attr('c'));
 
+                    var mineCounterChanged = false;
                     if (evt.which == 3) {
-                        ms.flag(r, c);
+                        var flagRet = ms.flag(r, c)
+                        mineCounterChanged = flagRet != 0;
                     } else if (evt.which == 1) {
                         if (r == _this.rPressed && c == _this.cPressed) {
-                            ms.open(r, c);
+                            mineCounterChanged = ms.open(r, c);
                         }
+                    }
+
+                    if (mineCounterChanged) {
+                        _this.updateMineCounter();
                     }
                     ms.checkWinning();
                 });
@@ -80,6 +86,8 @@ define(['jquery', 'utility', 'mineSweeper'],
         $('#game-body').on('contextmenu', 'div', function (e) {
             return false;
         });
+
+        this.updateMineCounter();
 
         $('body').on('mouseup dragend', function (evt) {
             switch (ms.game) {
@@ -121,6 +129,7 @@ define(['jquery', 'utility', 'mineSweeper'],
                 this.cellsView[i][j].attr('val', '_');
             }
         }
+        this.updateMineCounter();
     }
 
     proto.updateCell = function (r, c) {
@@ -148,6 +157,15 @@ define(['jquery', 'utility', 'mineSweeper'],
             break;
         }
     };
+
+    proto.updateMineCounter = function () {
+        var nMinesLeft = this.mineSweeper.nHiddenMines;
+        console.assert(0 <= nMinesLeft && nMinesLeft < 1000);
+        var s = ('00' + nMinesLeft).slice(-3)
+        $('#mine-left-100').attr('val', s[0]);
+        $('#mine-left-10').attr('val', s[1]);
+        $('#mine-left-1').attr('val', s[2]);
+    }
 
     return MineSweeperView;
 });

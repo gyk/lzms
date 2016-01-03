@@ -161,10 +161,11 @@ define(['underscore', 'utility'], function (_, utility) {
         return true;
     };
 
+    // return true (false) if any (no) cells has been opened.
     proto.open = function (r, c) {
         if (this.game == GameState.INTACT) {
             this.firstOpen(r, c);
-            return;
+            return true;
         }
 
         var hasOpened = this._open(r, c);
@@ -282,9 +283,10 @@ define(['underscore', 'utility'], function (_, utility) {
         this.game = GameState.DEAD;
     };
 
+    // returns the difference in the number of flagged mines
     proto._flag = function (r, c) {
         if (this.game != GameState.ALIVE) {
-            return false;
+            return 0;
         }
 
         var cells = this.cellStates;
@@ -297,11 +299,11 @@ define(['underscore', 'utility'], function (_, utility) {
             }
             this.nHiddenMines--;
             this.nUnknownCells--;
-            return true;
+            return -1;
             break;
         case State.OPENED:
         case State.WALL:
-            return false;
+            return 0;
             break;
         case State.FLAGGED:
             cells[r][c] = State.QUESTIONING;
@@ -310,20 +312,20 @@ define(['underscore', 'utility'], function (_, utility) {
             }
             this.nHiddenMines++;
             this.nUnknownCells++;
-            return flase;
+            return 1;
             break;
         case State.QUESTIONING:
             cells[r][c] = State.UNKNOWN;
             if (this.onFlagging !== undefined) {
                 this.onFlagging(r, c);
             }
-            return false;
+            return 0;
             break;
         }
     };
 
     proto.flag = function (r, c) {
-        if (this._flag(r, c)) {
+        if (this._flag(r, c) == -1) {
             if (this.beLazy) {
                 this.lazy(r, c);
             }

@@ -2,8 +2,8 @@
 <!-- generated at drububu.com  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" preserveAspectRatio="xMinYMin meet" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="18px" height="18px" viewBox="0 0 18 18">
-<path d="M0 0h18v18h-18z" fill="rgb(192,192,192)"/>
-<path d="M2 7h13v3h-13z" fill="rgb(0,0,0)"/>
-<path d="M3 8h11v1h-11z" fill="rgb(255,255,255)"/>
-<path d="M15 8h1v3h-13v-1h12z" fill="rgb(128,128,128)"/>
+<path d="M0 0h17v1h-16v16h-1z" fill="rgb(255,255,255)"/>
+<path d="M17 0h1v18h-18v-1h1v-1h15v-15h1z" fill="rgb(128,128,128)"/>
+<path d="M1 1h15v15h-15z" fill="rgb(192,192,192)"/>
+<path d="M5 7h7v1h-1v1h-1v1h-1v1h-1v-1h-1v-1h-1v-1h-1z" fill="rgb(0,0,0)"/>
 </svg>

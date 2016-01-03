@@ -31,13 +31,13 @@ body {
     border-bottom: 1px solid #000;
 }
 
-#cap-minimize {
+#cap-control {
     float: left;
 }
 #cap-text {
     margin: auto;
 }
-#cap-dropdown {
+#cap-minimize {
     float: right;
 }
 

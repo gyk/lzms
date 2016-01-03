@@ -1,6 +1,17 @@
 body {
   background-color: #C0C0C0;
-  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+  padding: 20px;
+}
+
+#explorer {
+    width: 100px;
+    text-align: center;
+}
+
+#exe-filename {
+    font-family: Tahoma, Geneva, sans-serif;
+    margin-top: 0;
 }
 
 #game {

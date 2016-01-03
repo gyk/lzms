@@ -14,10 +14,21 @@ requirejs(['underscore', 'utility', 'mineSweeper'],
   function (_, utility, MineSweeper) {
     // Optional dependency on jQuery
     requirejs(['jquery', 'mineSweeperView'], function ($, MineSweeperView) {
-        $('#start-game').click(function (ev) {
-            var ms = new MineSweeper({level: "Intermediate"});
-            var msv = new MineSweeperView(ms);
+        var ms = undefined,
+            msv = undefined;
+        $('#start-game').dblclick(function (ev) {
+            if (ms === undefined || msv === undefined) {
+                ms = new MineSweeper({level: "Intermediate"});
+                msv = new MineSweeperView(ms);
+            }
+            
+            $('#explorer').hide();
             $('#game').css('display', 'inline-block');
+        });
+
+        $('#cap-minimize').click(function (ev) {
+            $('#game').css('display', 'none');
+            $('#explorer').show();
         });
     }, function (err) {
         if (typeof window !== typeof undefined) {

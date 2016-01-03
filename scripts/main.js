@@ -30,6 +30,13 @@ requirejs(['underscore', 'utility', 'mineSweeper'],
             $('#game').css('display', 'none');
             $('#explorer').show();
         });
+
+        $('#cap-control').dblclick(function (ev) {
+            ms = undefined;
+            msv = undefined;
+            $('#game').css('display', 'none');
+            $('#explorer').show();
+        });
     }, function (err) {
         if (typeof window !== typeof undefined) {
             throw new Error("Failed to load jQuery");

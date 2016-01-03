@@ -24,6 +24,8 @@ define(['jquery', 'utility', 'mineSweeper'],
 
         this.cellsView = utility.create2DArray(ms.nRows + 2, ms.nColumns + 2, 
             undefined);
+        this.rPressed = -1;
+        this.cPressed = -1;
 
         $('#game-body').empty();
         for (var i = 1; i <= ms.nRows; i++) {
@@ -74,15 +76,6 @@ define(['jquery', 'utility', 'mineSweeper'],
             $('#game-body').append(row);
         }
 
-        this.rPressed = -1;
-        this.cPressed = -1;
-
-        if (ms.game != GameState.SPAWNED && 
-            ms.game != GameState.INTACT) {
-            ms.reset();  // play again
-            return;
-        }
-
         // disables right-click context menu
         $('#game-body').on('contextmenu', 'div', function (e) {
             return false;
@@ -115,10 +108,20 @@ define(['jquery', 'utility', 'mineSweeper'],
             $('#face').attr('emoticon', ':o');
         });
         $('#face').mouseup(function (evt) {
-            _this.init();
+            _this.reset();
             $('#face').attr('emoticon', ':)');
         });
     };
+
+    proto.reset = function () {
+        var ms = this.mineSweeper;
+        ms.reset();
+        for (var i = 1; i <= ms.nRows; i++) {
+            for (var j = 1; j <= ms.nColumns; j++) {
+                this.cellsView[i][j].attr('val', '_');
+            }
+        }
+    }
 
     proto.updateCell = function (r, c) {
         var ms = this.mineSweeper;

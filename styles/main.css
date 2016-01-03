@@ -4,9 +4,34 @@ body {
 }
 
 #game {
-    background-color: #BDBDBD;
     margin-top: 10px;
     margin-left: 1px;
+    display: none;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #000;
+}
+
+.caption {
+    background-color: #000080;
+    height: 18px;
+    width: auto;
+    text-align: center;
+    border-bottom: 1px solid #000;
+}
+
+#cap-minimize {
+    float: left;
+}
+#cap-text {
+    margin: auto;
+}
+#cap-dropdown {
+    float: right;
+}
+
+#game-board {
+    background-color: #BDBDBD;
     padding: 6px;
     border-width: 3px;
     border-style: solid;
@@ -14,7 +39,7 @@ body {
     border-top-color: #FFF;
     border-right-color: #7B7B7B;
     border-bottom-color: #7B7B7B;
-    display: none;
+    display: inline-block;
 }
 
 #game-head {

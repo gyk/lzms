@@ -11,41 +11,39 @@
         <link type="text/css" rel="stylesheet" href="styles/main.css" />
     </head>
     <body>
-        <header>
-            <h1>lzms</h1>
-            <p><em>Lazy Man's MineSweeper</em></p>
-            <div id='explorer'>
-                <img id='start-game' src='images/winmine.svg'/>
-                <p id='exe-filename'>winmine.exe</p>
+        <h1>lzms</h1>
+        <p><em>Lazy Man's MineSweeper</em></p>
+        <div id='explorer'>
+            <img id='start-game' src='images/winmine.svg'/>
+            <p id='exe-filename'>winmine.exe</p>
+        </div>
+
+        <div id='game'>
+            <div class='caption'>
+                <img id='cap-control' src='images/caption_control.svg' />
+                <img id='cap-text' src='images/caption_text.svg' />
+                <img id='cap-minimize' src='images/caption_minimize.svg' />
             </div>
-
-            <div id='game'>
-                <div class='caption'>
-                    <img id='cap-control' src='images/caption_control.svg' />
-                    <img id='cap-text' src='images/caption_text.svg' />
-                    <img id='cap-minimize' src='images/caption_minimize.svg' />
-                </div>
-                <div id='game-board'>
-                    <div id='game-head'>
-                        <div id='mines-left'>
-                            <div class='digit' id='mine-left-100' val='0'></div>
-                            <div class='digit' id='mine-left-10' val='0'></div>
-                            <div class='digit' id='mine-left-1' val='0'></div>
-                        </div>
-                        <div id='face' emoticon=':)'></div>
-                        <div id='timer'>
-                            <div class='digit' id='timer-100' val='0'></div>
-                            <div class='digit' id='timer-10' val='0'></div>
-                            <div class='digit' id='timer-1' val='0'></div>
-                        </div>
+            <div id='game-board'>
+                <div id='game-head'>
+                    <div id='mines-left'>
+                        <div class='digit' id='mine-left-100' val='0'></div>
+                        <div class='digit' id='mine-left-10' val='0'></div>
+                        <div class='digit' id='mine-left-1' val='0'></div>
                     </div>
-
-                    <div id='split'></div>
-
-                    <div id='game-body'>
+                    <div id='face' emoticon=':)'></div>
+                    <div id='timer'>
+                        <div class='digit' id='timer-100' val='0'></div>
+                        <div class='digit' id='timer-10' val='0'></div>
+                        <div class='digit' id='timer-1' val='0'></div>
                     </div>
                 </div>
+
+                <div id='split'></div>
+
+                <div id='game-body'>
+                </div>
             </div>
-        </header>
+        </div>
     </body>
 </html>

@@ -265,3 +265,46 @@ h1 {
     background-image: url('../images/mine_exploded.svg');
     background-size: 16px 16px;
 }
+
+/* preloads images */
+body:after {
+    content:
+        url(../images/n0.svg)
+        url(../images/n1.svg)
+        url(../images/n2.svg)
+        url(../images/n3.svg)
+        url(../images/n4.svg)
+        url(../images/n5.svg)
+        url(../images/n6.svg)
+        url(../images/n7.svg)
+        url(../images/n8.svg)
+
+        url(../images/d0.svg)
+        url(../images/d1.svg)
+        url(../images/d2.svg)
+        url(../images/d3.svg)
+        url(../images/d4.svg)
+        url(../images/d5.svg)
+        url(../images/d6.svg)
+        url(../images/d7.svg)
+        url(../images/d8.svg)
+        url(../images/d9.svg)
+
+        url(../images/face_dead.svg)
+        url(../images/face_glasses.svg)
+        url(../images/face_oh.svg)
+        url(../images/face_smile.svg)
+
+        url(../images/mine.svg)
+        url(../images/mine_exploded.svg)
+        url(../images/mine_flagged.svg)
+        url(../images/mine_misflagged.svg)
+        url(../images/mine_questioning.svg)
+
+        url(../images/caption_control.svg)
+        url(../images/caption_minimize.svg)
+        url(../images/caption_text.svg)
+
+        url(../images/blank.sv);
+    display: none;
+}

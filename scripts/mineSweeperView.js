@@ -115,6 +115,10 @@ define(['jquery', 'utility', 'mineSweeper', 'timer'],
                 _this.updateCell(_this.rPressed, _this.cPressed);
             }
 
+            if (ms.game == GameState.DEAD) {
+                _this.revealMines(_this.rPressed, _this.cPressed);
+            }
+
             _this.rPressed = -1;
             _this.cPressed = -1;
         });
@@ -165,6 +169,22 @@ define(['jquery', 'utility', 'mineSweeper', 'timer'],
             console.assert(false, "Update walls?");
             break;
         }
+    };
+
+    proto.revealMines = function (rExploded, cExploded) {
+        var ms = this.mineSweeper;
+        for (var i = 1; i <= ms.nRows; i++) {
+            for (var j = 1; j <= ms.nColumns; j++) {
+                if (ms.minefield[i][j] == 1 && 
+                    ms.cellStates[i][j] != State.FLAGGED) {
+                    this.cellsView[i][j].attr('val', '*');
+                } else if (ms.minefield[i][j] == 0 && 
+                    ms.cellStates[i][j] == State.FLAGGED) {
+                    this.cellsView[i][j].attr('val', 'x');
+                }
+            }
+        }
+        this.cellsView[rExploded][cExploded].attr('val', '@');
     };
 
     proto.updateMineCounter = function () {

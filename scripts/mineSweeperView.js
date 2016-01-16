@@ -1,5 +1,5 @@
-define(['jquery', 'utility', 'mineSweeper'], 
-  function ($, utility, MineSweeper) {
+define(['jquery', 'utility', 'mineSweeper', 'timer'], 
+  function ($, utility, MineSweeper, Timer) {
     var State = MineSweeper.State;
     var GameState = MineSweeper.GameState;
 
@@ -13,6 +13,10 @@ define(['jquery', 'utility', 'mineSweeper'],
         mineSweeper.onFlagging = this.updateCell.bind(this);
 
         this.mineSweeper = mineSweeper;
+        this.timer = new Timer(this.updateTimer.bind(this), 1000);
+        mineSweeper.onFirstOpening = (function () {
+            this.timer.start();
+        }).bind(this);
         this.init();
     }
 
@@ -88,6 +92,7 @@ define(['jquery', 'utility', 'mineSweeper'],
         });
 
         this.updateMineCounter();
+        this.updateTimer();
 
         $('body').on('mouseup dragend', function (evt) {
             switch (ms.game) {
@@ -98,9 +103,11 @@ define(['jquery', 'utility', 'mineSweeper'],
                 break;
             case GameState.DEAD:
                 $('#face').attr('emoticon', 'X(');
+                _this.timer.stop();
                 break;
             case GameState.WON:
                 $('#face').attr('emoticon', 'B)');
+                _this.timer.stop();
                 break;
             }
 
@@ -129,7 +136,9 @@ define(['jquery', 'utility', 'mineSweeper'],
                 this.cellsView[i][j].attr('val', '_');
             }
         }
+        this.timer.reset();
         this.updateMineCounter();
+        this.updateTimer(0);
     }
 
     proto.updateCell = function (r, c) {
@@ -165,7 +174,20 @@ define(['jquery', 'utility', 'mineSweeper'],
         $('#mine-left-100').attr('val', s[0]);
         $('#mine-left-10').attr('val', s[1]);
         $('#mine-left-1').attr('val', s[2]);
-    }
+    };
+
+    proto.updateTimer = function (nTicks) {
+        if (nTicks === undefined) {
+            nTicks = 0;
+        } else if (nTicks > 999) {
+            nTicks = 999;
+        }
+
+        var s = ('00' + nTicks).slice(-3)
+        $('#timer-100').attr('val', s[0]);
+        $('#timer-10').attr('val', s[1]);
+        $('#timer-1').attr('val', s[2]);
+    };
 
     return MineSweeperView;
 });

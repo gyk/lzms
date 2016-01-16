@@ -13,7 +13,8 @@ requirejs.config({
 requirejs(['underscore', 'utility', 'mineSweeper'], 
   function (_, utility, MineSweeper) {
     // Optional dependency on jQuery
-    requirejs(['jquery', 'mineSweeperView'], function ($, MineSweeperView) {
+    requirejs(['jquery', 'mineSweeperView'], 
+      function ($, MineSweeperView) {
         var ms = undefined,
             msv = undefined;
         $('#start-game').dblclick(function (ev) {

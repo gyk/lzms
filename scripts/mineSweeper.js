@@ -27,6 +27,7 @@ define(['underscore', 'utility'], function (_, utility) {
 
         this.onOpening = undefined;
         this.onFlagging = undefined;
+        this.onFirstOpening = undefined;
 
         this.init();
     }
@@ -187,6 +188,10 @@ define(['underscore', 'utility'], function (_, utility) {
         this.layMines(r, c);
         this.game = GameState.ALIVE;
         this.open(r, c);
+
+        if (this.onFirstOpening !== undefined) {
+            this.onFirstOpening(r, c);
+        }
 
         // trying to make a cascade opening
         if (this.beLazy && this.neighbors[r][c] > 0) {

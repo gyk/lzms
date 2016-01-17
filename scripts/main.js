@@ -34,6 +34,8 @@ requirejs(['underscore', 'utility', 'mineSweeper'],
 
         $('#cap-control').dblclick(function (ev) {
             ms = undefined;
+            // What? JavaScript has no destructor?
+            msv.timer.stop();
             msv = undefined;
             $('#game').css('display', 'none');
             $('#explorer').show();

@@ -30,6 +30,7 @@ define(['jquery', 'utility', 'mineSweeper', 'timer'],
             undefined);
         this.rPressed = -1;
         this.cPressed = -1;
+        this.mineRevealed = false;
 
         $('#game-body').empty();
         for (var i = 1; i <= ms.nRows; i++) {
@@ -61,6 +62,12 @@ define(['jquery', 'utility', 'mineSweeper', 'timer'],
                     }
                 });
                 aCell.mouseup(function (evt) {
+                    switch (ms.game) {
+                    case GameState.DEAD:
+                    case GameState.WON:
+                        return;
+                    }
+
                     var r = parseInt($(this).attr('r')),
                         c = parseInt($(this).attr('c'));
 
@@ -104,19 +111,16 @@ define(['jquery', 'utility', 'mineSweeper', 'timer'],
             case GameState.DEAD:
                 $('#face').attr('emoticon', 'X(');
                 _this.timer.stop();
-                break;
+                _this.revealMines(_this.rPressed, _this.cPressed);
+                return;
             case GameState.WON:
                 $('#face').attr('emoticon', 'B)');
                 _this.timer.stop();
-                break;
+                return;
             }
 
             if (_this.rPressed != -1) {
                 _this.updateCell(_this.rPressed, _this.cPressed);
-            }
-
-            if (ms.game == GameState.DEAD) {
-                _this.revealMines(_this.rPressed, _this.cPressed);
             }
 
             _this.rPressed = -1;
@@ -143,6 +147,7 @@ define(['jquery', 'utility', 'mineSweeper', 'timer'],
         this.timer.reset();
         this.updateMineCounter();
         this.updateTimer(0);
+        this.mineRevealed = false;
     }
 
     proto.updateCell = function (r, c) {
@@ -172,6 +177,8 @@ define(['jquery', 'utility', 'mineSweeper', 'timer'],
     };
 
     proto.revealMines = function (rExploded, cExploded) {
+        if (this.mineRevealed) return;
+
         var ms = this.mineSweeper;
         for (var i = 1; i <= ms.nRows; i++) {
             for (var j = 1; j <= ms.nColumns; j++) {
@@ -184,7 +191,12 @@ define(['jquery', 'utility', 'mineSweeper', 'timer'],
                 }
             }
         }
-        this.cellsView[rExploded][cExploded].attr('val', '@');
+
+        if (rExploded != -1 && cExploded != -1) {
+            this.cellsView[rExploded][cExploded].attr('val', '@');
+        }
+
+        this.mineRevealed = true;
     };
 
     proto.updateMineCounter = function () {

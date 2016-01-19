@@ -134,6 +134,11 @@ define(['jquery', 'utility', 'mineSweeper', 'timer'],
             _this.reset();
             $('#face').attr('emoticon', ':)');
         });
+
+        // registers menu event handlers
+        $('#menuitem-about').click(function (evt) {
+            alert('[lzms]\n\nThis product is licensed to:\nXYZZY');
+        });
     };
 
     proto.reset = function () {

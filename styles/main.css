@@ -1,3 +1,5 @@
+@import url("menu.css");
+
 body {
   background-color: #C0C0C0;
   font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
@@ -27,6 +29,7 @@ h1 {
     border-style: solid;
     border-width: 1px;
     border-color: #000;
+    background: #ECE9D8;
 }
 
 .caption {

@@ -139,7 +139,6 @@ define(['jquery', 'utility', 'mineSweeper', 'timer'],
         });
         $('#face').mouseup(function (evt) {
             _this.reset();
-            $('#face').attr('emoticon', ':)');
         });
 
         // registers menu event handlers
@@ -213,6 +212,7 @@ define(['jquery', 'utility', 'mineSweeper', 'timer'],
         this.updateMineCounter();
         this.updateTimer(0);
         this.mineRevealed = false;
+        $('#face').attr('emoticon', ':)');
     };
 
     proto.close = function () {

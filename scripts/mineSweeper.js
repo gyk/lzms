@@ -43,7 +43,7 @@ define(['underscore', 'utility'], function (_, utility) {
         'Beginner': {
             'nRows': 16,
             'nColumns': 16,
-            'nMines': 40
+            'nMines': 49
         },
         'Intermediate': {
             'nRows': 16,

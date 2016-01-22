@@ -60,7 +60,21 @@
     color: #FFF;
 }
 
+.menu li.checked:before {
+    content: "✔";
+    float: left;
+    padding: 0px 3px;
+    display: inline-block;
+}
+
+.menu ul li ul li:not(.checked):before {
+    content: "✔";
+    float: left;
+    padding: 0px 3px;
+    display: inline-block;
+    color: transparent;
+}
+
 hr.separator {
     margin: 4px 3px;
-    align: center;
 }

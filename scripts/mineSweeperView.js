@@ -10,6 +10,7 @@ define(['jquery', 'utility', 'mineSweeper', 'timer'],
 
         this.mineSweeper = mineSweeper;
         this.timer = new Timer(this.updateTimer.bind(this), 1000);
+        this.eventHandlersRegistered = false;
         this.init();
     }
 
@@ -93,16 +94,22 @@ define(['jquery', 'utility', 'mineSweeper', 'timer'],
             $('#game-body').append(row);
         }
 
+        this.updateMineCounter();
+        this.updateTimer();
+
+        // jQuery is designed to be capable of binding duplicate event handlers.
+        // Just remember whether the registration has been done so we don't 
+        // have to write code like this:
+        //     $(obj).off('event').on('event', handler);
+        if (this.eventHandlersRegistered) return;
+
         // disables right-click context menu
         $('#game-body').on('contextmenu', 'div', function (e) {
             return false;
         });
 
-        this.updateMineCounter();
-        this.updateTimer();
-
         $('body').on('mouseup dragend', function (evt) {
-            switch (ms.game) {
+            switch (_this.mineSweeper.game) {
             case GameState.SPAWNED:
             case GameState.INTACT:
             case GameState.ALIVE:
@@ -189,6 +196,8 @@ define(['jquery', 'utility', 'mineSweeper', 'timer'],
                     rightCol.outerHeight(true));
             };
         });
+
+        this.eventHandlersRegistered = true;
     };
 
     proto.reset = function () {

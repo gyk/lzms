@@ -142,9 +142,9 @@ define(['jquery', 'utility', 'mineSweeper', 'timer'],
 
         function uncheckAll() {
             
-            $('$menuitem-beginner').removeClass('checked').addClass('unchecked');
-            $('$menuitem-intermediate').removeClass('checked').addClass('unchecked');
-            $('$menuitem-expert').removeClass('checked').addClass('unchecked');
+            $('#menuitem-beginner').removeClass('checked').addClass('unchecked');
+            $('#menuitem-intermediate').removeClass('checked').addClass('unchecked');
+            $('#menuitem-expert').removeClass('checked').addClass('unchecked');
         }
 
         $('#menuitem-beginner').click(function (evt) {
@@ -153,7 +153,7 @@ define(['jquery', 'utility', 'mineSweeper', 'timer'],
             _this.init();
             _this.reset();
             uncheckAll();
-            $('$menuitem-beginner').removeClass('unchecked').addClass('checked');
+            $('#menuitem-beginner').removeClass('unchecked').addClass('checked');
         });
         $('#menuitem-intermediate').click(function (evt) {
             delete _this.mineSweeper;
@@ -161,7 +161,7 @@ define(['jquery', 'utility', 'mineSweeper', 'timer'],
             _this.init();
             _this.reset();
             uncheckAll();
-            $('$menuitem-intermediate').removeClass('unchecked').addClass('checked');
+            $('#menuitem-intermediate').removeClass('unchecked').addClass('checked');
         });
         $('#menuitem-expert').click(function (evt) {
             delete _this.mineSweeper;
@@ -169,7 +169,7 @@ define(['jquery', 'utility', 'mineSweeper', 'timer'],
             _this.init();
             _this.reset();
             uncheckAll();
-            $('$menuitem-expert').removeClass('unchecked').addClass('checked');
+            $('#menuitem-expert').removeClass('unchecked').addClass('checked');
         });
 
         $('#menuitem-exit').click(function (evt) {

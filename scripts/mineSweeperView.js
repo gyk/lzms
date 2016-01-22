@@ -177,7 +177,17 @@ define(['jquery', 'utility', 'mineSweeper', 'timer'],
         });
 
         $('#menuitem-about').click(function (evt) {
-            alert('[lzms]\n\nThis product is licensed to:\nXYZZY');
+            // Pop-up windows must be visible and have address bar.
+            var aboutWin = window.open('about.html', '_blank', 
+                'location=no,status=no,menubar=no,resizable=no');
+
+            aboutWin.onload = function () {
+                var leftCol = $('#left-col', aboutWin.document);
+                var rightCol = $('#right-col', aboutWin.document);
+                aboutWin.innerWidth = $('body', aboutWin.document).width();
+                aboutWin.innerHeight = Math.max(leftCol.outerHeight(true), 
+                    rightCol.outerHeight(true));
+            };
         });
     };
 

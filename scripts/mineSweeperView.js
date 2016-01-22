@@ -5,18 +5,11 @@ define(['jquery', 'utility', 'mineSweeper', 'timer'],
 
     function MineSweeperView(mineSweeper) {
         if (mineSweeper === undefined) {
-            mineSweeper = new MineSweeper({level: "Beginner"});
+            mineSweeper = new MineSweeper({level: "Intermediate"});
         }
-
-        // TODO: it would be better to update cells in batch mode.
-        mineSweeper.onOpening = this.updateCell.bind(this);
-        mineSweeper.onFlagging = this.updateCell.bind(this);
 
         this.mineSweeper = mineSweeper;
         this.timer = new Timer(this.updateTimer.bind(this), 1000);
-        mineSweeper.onFirstOpening = (function () {
-            this.timer.start();
-        }).bind(this);
         this.init();
     }
 
@@ -25,6 +18,13 @@ define(['jquery', 'utility', 'mineSweeper', 'timer'],
     proto.init = function () {
         var _this = this;
         var ms = this.mineSweeper;
+
+        // TODO: minimize reflows.
+        ms.onOpening = this.updateCell.bind(this);
+        ms.onFlagging = this.updateCell.bind(this);
+        ms.onFirstOpening = (function () {
+            this.timer.start();
+        }).bind(this);
 
         this.cellsView = utility.create2DArray(ms.nRows + 2, ms.nColumns + 2, 
             undefined);
@@ -136,6 +136,46 @@ define(['jquery', 'utility', 'mineSweeper', 'timer'],
         });
 
         // registers menu event handlers
+        $('#menuitem-new').click(function (evt) {
+            _this.reset();
+        });
+
+        function uncheckAll() {
+            
+            $('$menuitem-beginner').removeClass('checked').addClass('unchecked');
+            $('$menuitem-intermediate').removeClass('checked').addClass('unchecked');
+            $('$menuitem-expert').removeClass('checked').addClass('unchecked');
+        }
+
+        $('#menuitem-beginner').click(function (evt) {
+            delete _this.mineSweeper;
+            _this.mineSweeper = new MineSweeper({level: "Beginner"});
+            _this.init();
+            _this.reset();
+            uncheckAll();
+            $('$menuitem-beginner').removeClass('unchecked').addClass('checked');
+        });
+        $('#menuitem-intermediate').click(function (evt) {
+            delete _this.mineSweeper;
+            _this.mineSweeper = new MineSweeper({level: "Intermediate"});
+            _this.init();
+            _this.reset();
+            uncheckAll();
+            $('$menuitem-intermediate').removeClass('unchecked').addClass('checked');
+        });
+        $('#menuitem-expert').click(function (evt) {
+            delete _this.mineSweeper;
+            _this.mineSweeper = new MineSweeper({level: "Expert"});
+            _this.init();
+            _this.reset();
+            uncheckAll();
+            $('$menuitem-expert').removeClass('unchecked').addClass('checked');
+        });
+
+        $('#menuitem-exit').click(function (evt) {
+            _this.close();
+        });
+
         $('#menuitem-about').click(function (evt) {
             alert('[lzms]\n\nThis product is licensed to:\nXYZZY');
         });
@@ -153,7 +193,14 @@ define(['jquery', 'utility', 'mineSweeper', 'timer'],
         this.updateMineCounter();
         this.updateTimer(0);
         this.mineRevealed = false;
-    }
+    };
+
+    proto.close = function () {
+        this.timer.stop();
+        this.reset();
+        $('#game').css('display', 'none');
+        $('#explorer').show();
+    };
 
     proto.updateCell = function (r, c) {
         var ms = this.mineSweeper;

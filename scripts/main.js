@@ -15,12 +15,10 @@ requirejs(['underscore', 'utility', 'mineSweeper'],
     // Optional dependency on jQuery
     requirejs(['jquery', 'mineSweeperView'], 
       function ($, MineSweeperView) {
-        var ms = undefined,
-            msv = undefined;
+        var msv = undefined;
         $('#start-game').dblclick(function (ev) {
-            if (ms === undefined || msv === undefined) {
-                ms = new MineSweeper({level: "Intermediate"});
-                msv = new MineSweeperView(ms);
+            if (msv === undefined) {
+                msv = new MineSweeperView();
             }
             
             $('#explorer').hide();
@@ -33,10 +31,7 @@ requirejs(['underscore', 'utility', 'mineSweeper'],
         });
 
         $('#cap-control').dblclick(function (ev) {
-            ms = undefined;
-            // What? JavaScript has no destructor?
-            msv.timer.stop();
-            msv = undefined;
+            msv.reset();
             $('#game').css('display', 'none');
             $('#explorer').show();
         });

@@ -15,6 +15,14 @@ requirejs(['underscore', 'utility', 'mineSweeper'],
     // Optional dependency on jQuery
     requirejs(['jquery', 'mineSweeperView'], 
       function ($, MineSweeperView) {
+        var ua = window.navigator.userAgent;
+        if (Math.max(ua.indexOf('MSIE '), ua.indexOf('Trident/'), 
+            ua.indexOf('Edge/')) > 0) {
+            alert('Internet Explorer and Microsoft Edge render SVG ' + 
+                'background images poorly due to rasterization. ' + 
+                'Please try other browsers for better experience.');
+        }
+
         var msv = undefined;
         $('#start-game').dblclick(function (ev) {
             if (msv === undefined) {

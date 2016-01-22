@@ -147,36 +147,37 @@ define(['jquery', 'utility', 'mineSweeper', 'timer'],
             _this.reset();
         });
 
-        function uncheckAll() {
-            
+        function checkOnly(item) {
+            if (item.hasClass('checked')) {
+                return false;
+            }
             $('#menuitem-beginner').removeClass('checked').addClass('unchecked');
             $('#menuitem-intermediate').removeClass('checked').addClass('unchecked');
             $('#menuitem-expert').removeClass('checked').addClass('unchecked');
+            item.removeClass('unchecked').addClass('checked');
+            return true;
         }
 
         $('#menuitem-beginner').click(function (evt) {
+            if (!checkOnly($(this))) return;
             delete _this.mineSweeper;
             _this.mineSweeper = new MineSweeper({level: "Beginner"});
             _this.init();
             _this.reset();
-            uncheckAll();
-            $('#menuitem-beginner').removeClass('unchecked').addClass('checked');
         });
         $('#menuitem-intermediate').click(function (evt) {
+            if (!checkOnly($(this))) return;
             delete _this.mineSweeper;
             _this.mineSweeper = new MineSweeper({level: "Intermediate"});
             _this.init();
             _this.reset();
-            uncheckAll();
-            $('#menuitem-intermediate').removeClass('unchecked').addClass('checked');
         });
         $('#menuitem-expert').click(function (evt) {
+            if (!checkOnly($(this))) return;
             delete _this.mineSweeper;
             _this.mineSweeper = new MineSweeper({level: "Expert"});
             _this.init();
             _this.reset();
-            uncheckAll();
-            $('#menuitem-expert').removeClass('unchecked').addClass('checked');
         });
 
         $('#menuitem-exit').click(function (evt) {

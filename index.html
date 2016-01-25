@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>lzms</title>
+        <meta charset="UTF-8" />
+        <meta name="Keywords" content="MineSweeper">
+        <meta name="Description" content="">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="icon" type="image/png" href="images/winmine.png">
+        <script data-main="scripts/main" src="scripts/require.js"></script>
+        <link type="text/css" rel="stylesheet" href="styles/main.css" />
+    </head>
+    <body>
+        <h1>lzms</h1>
+        <p><em>Lazy Man's MineSweeper</em></p>
+        <div id='explorer'>
+            <img id='start-game' src='images/winmine.svg'/>
+            <p id='exe-filename'>winmine.exe</p>
+        </div>
+
+        <div id='game'>
+            <div class='caption'>
+                <img id='cap-control' src='images/caption_control.svg' />
+                <img id='cap-text' src='images/caption_text.svg' />
+                <img id='cap-minimize' src='images/caption_minimize.svg' />
+            </div>
+            <div class='menu'>
+                <ul>
+                    <li>
+                        <a href="#!">Game</a>
+                        <ul>
+                            <li id='menuitem-new'>
+                                <a href="#!">New</a>
+                            </li>
+                            <hr class='separator' />
+                            <li id='menuitem-beginner' class='unchecked'>
+                                <a href="#!">Beginner</a>
+                            </li>
+                            <li id='menuitem-intermediate' class='checked'>
+                                <a href="#!">Intermediate</a>
+                            </li>
+                            <li id='menuitem-expert' class='unchecked'>
+                                <a href="#!">Expert</a>
+                            </li>
+                            <hr class='separator' />
+                            <li id='menuitem-exit'>
+                                <a href="#!">Exit</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#!">Help</a>
+                        <ul>
+                            <li id='menuitem-about'>
+                                <a href="#!">About lzms...</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div id='game-board'>
+                <div id='game-head'>
+                    <div id='mines-left'>
+                        <div class='digit' id='mine-left-100' val='0'></div>
+                        <div class='digit' id='mine-left-10' val='0'></div>
+                        <div class='digit' id='mine-left-1' val='0'></div>
+                    </div>
+                    <div id='face' emoticon=':)'></div>
+                    <div id='timer'>
+                        <div class='digit' id='timer-100' val='0'></div>
+                        <div class='digit' id='timer-10' val='0'></div>
+                        <div class='digit' id='timer-1' val='0'></div>
+                    </div>
+                </div>
+
+                <div id='split'></div>
+
+                <div id='game-body'>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

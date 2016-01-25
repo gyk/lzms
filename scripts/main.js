@@ -5,7 +5,10 @@ if (typeof requirejs === typeof undefined) {
 
 requirejs.config({
     paths: {
-        'jquery': 'jquery', 
+        'jquery': [
+            'https://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.2/jquery.min.js',
+            'jquery'  // local fallback
+        ],
         'underscore': 'underscore'
     }
 });

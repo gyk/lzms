@@ -308,6 +308,6 @@ body:after {
         url(../images/caption_minimize.svg)
         url(../images/caption_text.svg)
 
-        url(../images/blank.sv);
+        url(../images/blank.svg);
     display: none;
 }

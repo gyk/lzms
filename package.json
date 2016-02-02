@@ -1,0 +1,17 @@
+{
+  "name": "lzms",
+  "version": "0.0.2",
+  "author": {
+    "name": "Yukun Guo"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gyk/lzms"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-copy": "^0.8.2",
+    "grunt-contrib-requirejs": "^0.4.4",
+    "grunt-contrib-cssmin": "^0.14.0"
+  }
+}

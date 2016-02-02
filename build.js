@@ -1,3 +1,5 @@
+// This file is obsolete. Run `requirejs` task in Gruntfile instead.
+
 // builds into a single file
 {
     baseUrl: './scripts',

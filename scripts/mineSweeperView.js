@@ -191,7 +191,12 @@ define(['jquery', 'utility', 'mineSweeper', 'timer'],
             aboutWin.onload = function () {
                 var leftCol = $('#left-col', aboutWin.document);
                 var rightCol = $('#right-col', aboutWin.document);
-                aboutWin.innerWidth = $('body', aboutWin.document).width();
+
+                // `$('body', aboutWin.document).width()` should not be used 
+                // here as the window might be resized (by users), triggering 
+                // a reflow where left and right columns stack vertically.
+                aboutWin.innerWidth = leftCol.outerWidth(true) + 
+                    rightCol.outerWidth(true);
                 aboutWin.innerHeight = Math.max(leftCol.outerHeight(true), 
                     rightCol.outerHeight(true));
             };

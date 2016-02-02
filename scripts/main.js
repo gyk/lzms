@@ -26,25 +26,27 @@ requirejs(['underscore', 'utility', 'mineSweeper'],
                 'Please try other browsers for better experience.');
         }
 
-        var msv = undefined;
-        $('#start-game').dblclick(function (ev) {
-            if (msv === undefined) {
-                msv = new MineSweeperView();
-            }
-            
-            $('#explorer').hide();
-            $('#game').css('display', 'inline-block');
-        });
+        $(document).ready(function () {
+            var msv = undefined;
+            $('#start-game').dblclick(function (ev) {
+                if (msv === undefined) {
+                    msv = new MineSweeperView();
+                }
+                
+                $('#explorer').hide();
+                $('#game').css('display', 'inline-block');
+            });
 
-        $('#cap-minimize').click(function (ev) {
-            $('#game').css('display', 'none');
-            $('#explorer').show();
-        });
+            $('#cap-minimize').click(function (ev) {
+                $('#game').css('display', 'none');
+                $('#explorer').show();
+            });
 
-        $('#cap-control').dblclick(function (ev) {
-            msv.reset();
-            $('#game').css('display', 'none');
-            $('#explorer').show();
+            $('#cap-control').dblclick(function (ev) {
+                msv.reset();
+                $('#game').css('display', 'none');
+                $('#explorer').show();
+            });
         });
     }, function (err) {
         if (typeof window !== typeof undefined) {

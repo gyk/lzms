@@ -225,6 +225,7 @@ define(['jquery', 'utility', 'mineSweeper', 'timer'],
         this.reset();
         $('#game').css('display', 'none');
         $('#explorer').show();
+        $('body').css('background', '#FFF');
     };
 
     proto.updateCell = function (r, c) {

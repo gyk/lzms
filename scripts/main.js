@@ -35,17 +35,17 @@ requirejs(['underscore', 'utility', 'mineSweeper'],
                 
                 $('#explorer').hide();
                 $('#game').css('display', 'inline-block');
+                $('body').css('background', '#A0A0A0');
             });
 
             $('#cap-minimize').click(function (ev) {
                 $('#game').css('display', 'none');
                 $('#explorer').show();
+                $('body').css('background', '#FFF');
             });
 
             $('#cap-control').dblclick(function (ev) {
-                msv.reset();
-                $('#game').css('display', 'none');
-                $('#explorer').show();
+                msv.close();
             });
         });
     }, function (err) {
